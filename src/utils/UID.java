@@ -4,6 +4,8 @@ import java.util.Base64;
 import java.util.UUID; // 32 chars
 
 public class UID {
+    private static final int RAW_BYTES = 16;
+    private static final int ENCODED_LENGTH = 22;
     public static String generate() {
         UUID uuid = UUID.randomUUID();
         byte[] bytes = toBytes(uuid);
@@ -26,6 +28,19 @@ public class UID {
             bytes[i] = (byte) (lsb >>> (8 * (15 - i)));
 
         return bytes;
+    }
+    
+    public static boolean isValid(String uid) {
+        if (uid == null || uid.length() != ENCODED_LENGTH) {
+            return false;
+        }
+
+        try {
+            byte[] decoded = Base64.getUrlDecoder().decode(uid);
+            return decoded.length == RAW_BYTES;
+        } catch (IllegalArgumentException e) {
+            return false; // invalid base64
+        }
     }
 }
 

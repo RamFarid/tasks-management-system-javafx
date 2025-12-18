@@ -101,6 +101,12 @@ public class Query {
     public String getRowToInsert() {
         return this.rowToInsert;
     }
+    public static String[] splitRow(String row) {
+        return row.split("\\|");
+    }
+    public FileManager.FILES getQueryRules() {
+        return this.queryRules;
+    }
     @Override
     public String toString() {
         return "Queries: " + this.queryFields.toString()
